@@ -74,32 +74,32 @@ const Dashboard = () => {
   };
 
   // Récupérer les pointages du jour pour une promotion
-  const fetchPointages = async (promoId) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/promos/${promoId}/pointages-aujourdhui`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
+  // const fetchPointages = async (promoId) => {
+  //   const response = await fetch(
+  //     `${process.env.NEXT_PUBLIC_API_URL}/promos/${promoId}/pointages-aujourdhui`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       },
+  //     }
+  //   );
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        setPointages(data.pointages);
-        setSelectedPromoId(promoId);
-      } else {
-        console.error(
-          data.message || 'Erreur lors de la récupération des pointages.'
-        );
-      }
-    } else {
-      console.error('Erreur lors de la récupération des pointages.');
-    }
-  };
+  //   if (response.ok) {
+  //     const data = await response.json();
+  //     if (data.success) {
+  //       setPointages(data.pointages);
+  //       setSelectedPromoId(promoId);
+  //     } else {
+  //       console.error(
+  //         data.message || 'Erreur lors de la récupération des pointages.'
+  //       );
+  //     }
+  //   } else {
+  //     console.error('Erreur lors de la récupération des pointages.');
+  //   }
+  // };
 
   if (promosError || promosErrorTerminer) {
     return (
