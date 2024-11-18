@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@theme": ["./theme.js"],
+      "@components/*": ["./components/*"],
+      "@resources/*": [
+        "./lib/resources/config/*",
+        "./lib/resources/requests/*"
+      ],
+      "@helpers": ["./lib/helpers/index.js"],
+      "@hooks": ["./lib/utils/hooks/index.js"],
+      "@utils/*": ["./lib/utils/*"],
+      "@services/*": ["./lib/services/*"],
+      "@handlers": ["./lib/handlers/index.js"],
+      "@schemas": ["./lib/utils/schemas/index.js"]
+    }
+  }
+}

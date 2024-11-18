@@ -1,0 +1,48 @@
+{
+  "name": "next-abstract",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "build": "NODE_NO_WARNINGS=1 NODE_APPLICATION_BUILDING=TRUE NODE_TLS_REJECT_UNAUTHORIZED=0 next build",
+    "start": "NODE_NO_WARNINGS=1 NODE_TLS_REJECT_UNAUTHORIZED=0 next start",
+    "lint": "next lint",
+    "prettier": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@artsy/fresnel": "^7.1.4",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "axios": "^1.7.2",
+    "date-fns": "^4.1.0",
+    "dayjs": "^1.11.13",
+    "eslint": "8.32.0",
+    "eslint-config-next": "13.4.19",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.3.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "next": "^14.2.5",
+    "node-cache": "^5.1.2",
+    "osnmarket-abstract-core": "^1.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "react-markdown": "^9.0.1",
+    "react-web-qr-reader": "^1.0.4",
+    "recharts": "^2.12.7",
+    "sharp": "^0.33.5",
+    "sweetalert2": "^11.6.13",
+    "swr": "^2.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.2",
+    "prettier": "^2.7.1"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}
