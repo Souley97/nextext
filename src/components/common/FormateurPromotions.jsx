@@ -2,7 +2,7 @@ import { Box, Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FaUsers } from 'react-icons/fa';
 
-const FormateurPromotions = ({ formateur, isCompleted = false }) => {
+const FormateurPromotions = ({ formateur }) => {
   if (!formateur) {
     return <Text>Sélectionnez un formateur pour voir ses promotions.</Text>;
   }

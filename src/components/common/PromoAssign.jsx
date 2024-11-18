@@ -1,3 +1,6 @@
+
+/* eslint-disable no-unused-vars */
+
 import { Box, Button, Text } from '@chakra-ui/react';
 import FormSelect from './FormSelect';
 import usePromoAssign from '../../lib/utils/hooks/usePromoAssign';
@@ -48,7 +51,7 @@ const PromoAssign = () => {
           />
 
           <Button mt={4} colorScheme="red" onClick={() => handleAssignClick(promo.id)}>
-            Assigner l'assistant
+            Assigner assistant
           </Button>
         </Box>
       ))}
