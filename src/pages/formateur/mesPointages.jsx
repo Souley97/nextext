@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, lazy, Suspense } from 'react';
@@ -97,9 +98,10 @@ const MesPointages = () => {
        
         <CardBox
           as="section"
-          px={{ base: '12px', md: '13px', lg: '90px' }}
-          maxW={{ base: '366px', md: '100%', lg: '100%' }}
-        
+          px={{ base: '2px', md: '30px', lg: '60px' }}
+          ml={{ base: '2px', md: '20px', lg: '220px' }}
+      
+          maxW={{ base: '100%', lg: '100%' }}
         >
           <PointageBox
             date={date}
@@ -115,7 +117,7 @@ const MesPointages = () => {
         <CardBox
           as="section"
           px={{ base: '12px', md: '13px', lg: '40px' }}
-          mx={{ base: '2px', md: '3px', lg: '0px' }}
+          mx={{ base: '2px', md: '3px', lg: '80px' }}
           maxW={{ base: '366px', md: '100%', lg: '100%' }}
         
         

@@ -1,5 +1,6 @@
 import { Box, Heading, List } from '@chakra-ui/react';
 import AttendanceItem from './AttendanceItem';
+import ButtonDeconnexion from '../../common/ButtonDeconnexion';
 
 function ListePointage({ pointages }) {
   return (
@@ -31,6 +32,7 @@ function ListePointage({ pointages }) {
       >
         {`Aujourd'hui `}
       </Heading>
+      <ButtonDeconnexion />
 
       <List
         spacing={4}

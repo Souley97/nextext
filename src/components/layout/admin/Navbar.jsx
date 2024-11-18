@@ -45,7 +45,7 @@ const ProfileCardAdministrateur = React.memo(() => {
 
   // Ajouter "(e)" au rôle si l'utilisateur est une femme
   const formattedRoles = roles.map((role) =>
-    user.sexe === 'femme' ? `${role}e` : role
+    user.sexe === 'femme' ? `Administratrice` : role
   );
 
 
@@ -159,12 +159,23 @@ const ProfileCardAdministrateur = React.memo(() => {
                 <PopoverCloseButton />
                 <PopoverHeader>profile</PopoverHeader>
                 <Flex p={4}>
+                <PopoverBody>
+                <Button w="15" rounded="md" h="10" bg="gray.100">
+                  <NavLink
+                    href="/admins/profile"
+                    icon={FaUser}
+                    buttonSize={buttonSize}
+                  />
+                  </Button  >
+                  
+                </PopoverBody>
                   <PopoverBody>
                     <ThemeToggleButton />
                   </PopoverBody>
                   <PopoverBody>
                     <ButtonDeconnexion />
                   </PopoverBody>
+                  
                 </Flex>
               </PopoverContent>
             </Popover>
@@ -187,28 +198,25 @@ const ProfileCardAdministrateur = React.memo(() => {
               <PopoverCloseButton />
               <PopoverHeader>profile</PopoverHeader>
               <Flex p={4}>
-                <NavLink
-                  href="/admins/profile"
-                  icon={FaUser}
-                  label="Profile"
-                  iconSize={iconSize}
-                  buttonSize={buttonSize}
-                />
-
+                
+              <PopoverBody>
+                <Button w="15" rounded="md" h="10" bg="gray.100">
+                  <NavLink
+                    href="/admins/profile"
+                    icon={FaUser}
+                    buttonSize={buttonSize}
+                  />
+                  </Button  >
+                  
+                </PopoverBody>
                 <PopoverBody>
                   <ThemeToggleButton />
                 </PopoverBody>
                 <PopoverBody>
                   <ButtonDeconnexion />
+                  
                 </PopoverBody>
-                <PopoverBody>
-                  <NavLink
-                    href="/admins/profile"
-                    icon={FaUser}
-                    iconSize={iconSize}
-                    buttonSize={buttonSize}
-                  />
-                </PopoverBody>
+              
               </Flex>
             </PopoverContent>
           </Popover>

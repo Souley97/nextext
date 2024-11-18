@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'; // Importation de React et du composant Suspense.
-import { Box, Center, Spinner, Text } from '@chakra-ui/react'; // Importation des composants Chakra UI.
+import { Box, Center, Spinner, Text, VStack } from '@chakra-ui/react'; // Importation des composants Chakra UI.
 import MonthPagination from './MonthPagination'; // Composant pour changer de mois.
 import WeekSelector from './WeekSelector'; // Composant pour sélectionner la semaine.
 import ListePointage from '../func/formateur/ListePointage'; // Composant pour afficher la liste des pointages.
@@ -16,7 +16,7 @@ const PointageBox = ({ // Définition du composant PointageBox avec des props.
   attendanceSummary, // Résumé des présences.
 }) => (
   <Box as="section" display="flex" flexDirection="column" // Conteneur principal avec styles.
-       w="full" maxW={{ base: '366px', md: '500px', lg: '100%' }} // Largeur maximale en fonction de l'écran.
+       w="full" maxW={{ base: '100%', md: '100%', lg: '100%' }} // Largeur maximale en fonction de l'écran.
       >
        {/* // Autres styles. */}
 
@@ -47,11 +47,24 @@ const PointageBox = ({ // Définition du composant PointageBox avec des props.
 
     {pointagesError ? ( 
       <Center mt={4}>
-        <Text fontSize="lg" color="gray.600">Erreur lors de la récupération des pointages.</Text>
+       <VStack>
+
+        <Text fontSize="lg" color="gray.600">Aucun pointage trouvé pour cette période.</Text>
+
+        <Suspense fallback={<Spinner />}> 
+        {/*  Chargement du résumé des présences. */}
+          <AttendanceSummary summary={attendanceSummary} />
+        </Suspense>
+        </VStack>
       </Center>
+      
     ) : pointagesData?.pointages.length === 0 ? ( // Si pas de pointages trouvés.
       <Center mt={4}>
         <Text fontSize="lg" color="gray.600">Aucun pointage trouvé pour cette période.</Text>
+          <Suspense fallback={<Spinner />}> 
+        {/*  Chargement du résumé des présences. */}
+          <AttendanceSummary summary={attendanceSummary} />
+        </Suspense>
       </Center>
     ) : ( // Si des pointages sont disponibles.
       <>

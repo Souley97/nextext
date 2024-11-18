@@ -150,9 +150,11 @@ const filteredUsers = Array.isArray(formateurs)
         spacing={2}
       >
         <CardBox maxW={{ base: '100%', md: '100%', lg: '90%' }}>
-          <Heading justifyContent="center" mx="41%" as="h2" size="md" mb={4}>
+          <Center>
+          <Heading justifyContent="center" as="h2" size="md" mb={4}>
             {role}
           </Heading>
+          </Center>
           <Box mx="25%">
             <FormSelect
               id="role"
@@ -232,21 +234,20 @@ const filteredUsers = Array.isArray(formateurs)
                 error={errors.sexe}
               />
             </SimpleGrid>
-
+<Center>
             <Button
               mt={4}
-              mx="25%"
-              type="submit"
+              width={{ base: '100%', md: '100%', lg: '50%' }}
               alignItems="center"
               isLoading={isLoading}
               _hover={{ bg: '#110033' }}
               color="white"
               bg="#CE0033"
-              width="50%"
-              py={7}
+              py={5}
             >
               Inscrire {role}
             </Button>
+            </Center>
           </form>
 
           {message && (
@@ -294,7 +295,7 @@ const filteredUsers = Array.isArray(formateurs)
               borderRadius="md"
               onClick={() => setFilterType('ChefDeProjet')}
             >
-              Chefs de Projet
+              Chef de Projet
             </Button>
             <Button
               px={{ base: 2, md: 3, lg: 10 }}

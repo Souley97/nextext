@@ -61,7 +61,7 @@ const Dashboard = () => {
   const fabriques = FabriquesData ? FabriquesData : [];
   console.log('Fabriques', fabriques);
 
-  const ITEMS_PER_PAGE = 3;
+  const ITEMS_PER_PAGE = 6;
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -215,7 +215,17 @@ const Dashboard = () => {
       columns={[1, 2]}
       spacing={8}
     >
+      {/* <CardBox
+        as="section"
+       
+        maxW={{ base: '366px', md: '100%', lg: '90%' }}
      
+        display={{ base: 'block', md: 'block', lg: 'block' }}
+      >
+        
+        
+        ;
+      </CardBox> */}
         {/* Add Fabrique and Formation Forms */}
         <CardBox
           as="section"
@@ -226,7 +236,7 @@ const Dashboard = () => {
        
         >
           <Box>
-            <Flex
+            {/* <Flex
               justifyContent="space-between"
               alignItems="center"
               overflow="hidden"
@@ -258,7 +268,7 @@ const Dashboard = () => {
               >
                 Suivant
               </Button>
-            </Flex> 
+            </Flex> */}
           </Box>
           <SimpleGrid columns={[1]} spacing={4}>
             {/* Add Fabrique Form */}

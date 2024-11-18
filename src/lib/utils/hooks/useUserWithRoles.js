@@ -9,6 +9,7 @@ const fetcher = async (url) => {
   const response = await api(url, 'GET', null, token);
   return response.user;
 };
+// eslint-disable-next-line no-unused-vars
 
 export const useUserWithRoles = (requiredRoles = []) => {
   const router = useRouter();
@@ -21,7 +22,7 @@ export const useUserWithRoles = (requiredRoles = []) => {
   const roles = user ? user.roles.map(r => r.name) : [];
 
   // Check if the user has required roles
-  const hasRequiredRole = requiredRoles.some(role => roles.includes(role));
+  // const hasRequiredRole = requiredRoles.some(role => roles.includes(role));
 
   // Redirect to login if no token or to unauthorized page if no roles
   if (loading) return { user: null, roles: [], loading, error: null };

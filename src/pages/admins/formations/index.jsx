@@ -248,8 +248,9 @@ const AdminPage = () => {
           mx="auto"
           py={8}
           mt={7}
+          ml={{ base: '0%', md: '20px', lg: '17%' }}
           w="full"
-          maxW={{ base: '100%', lg: '90%' }}
+          maxW={{ base: '100%', lg: '96%' }}
           borderBottom="2px solid"
           borderTop="2px solid"
           borderColor="#CE0033"
@@ -297,7 +298,6 @@ const AdminPage = () => {
                   type="submit"
                   color="white"
                   _hover={{ bg: 'gray.600' }}
-                  isLoading={isLoading}
                   bg="#CE0033"
                   width="full"
                 >

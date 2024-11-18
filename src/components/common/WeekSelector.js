@@ -14,6 +14,7 @@ const WeekSelector = ({ semainesDuMois, selectedWeek, setSelectedWeek }) => {
       {semainesDuMois.map((week) => (
         <Button
           display="block"
+          w="20%"
           height="full"
           py={2}
           key={week.number}
@@ -42,7 +43,7 @@ const WeekSelector = ({ semainesDuMois, selectedWeek, setSelectedWeek }) => {
           color={selectedWeek === week.number ? 'white' : isDarkMode ? 'gray.400' : 'gray.400'}
         >
           <Icon size="xl" as={FaCalendarAlt} />
-          <Text as="h5" w={12} fontSize={{base: '10px' , md : '10px', lg: '12px'}} ml="-3">Semaine {week.number}</Text>
+          <Text as="h5" w={12}fontSize={{base: '11px' , md : '11px', lg: '16px'}}  mr={{base: '4px' , md : '4px', }} >Semaine {week.number}</Text>
 
         </Button>
       ))}
