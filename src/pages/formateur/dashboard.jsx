@@ -76,8 +76,8 @@ const AdminPage = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/promos/static`, {
-        // const response = await fetch(`https://simplon-pointe.julinhondiaye097.simplonfabriques.com/api/promos/static`, {
+      // const response = await fetch(`http://localhost:8000/api/promos/static`, {
+        const response = await fetch(`https://simplon-pointe.julinhondiaye097.simplonfabriques.com/api/promos/static`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
