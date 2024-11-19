@@ -140,7 +140,7 @@ const ProfileCardFormateur = React.memo(() => {
           >
             <Popover>
               <PopoverTrigger>
-                <Button w="24" rounded="xl" h="24" bg="white">
+                <Button w="24" rounded="xl" h="24" color="black" bg="white">                 
                   <IoSettingsOutline size={32} />
                 </Button>
               </PopoverTrigger>
@@ -149,6 +149,16 @@ const ProfileCardFormateur = React.memo(() => {
                 <PopoverCloseButton />
                 <PopoverHeader>profile</PopoverHeader>
                 <Flex p={4}>
+                <PopoverBody>
+                <Button w="15" rounded="md" h="10" bg="gray.100">
+                  <NavLink
+                  href="/formateur/profile"
+                  icon={FaUser}
+                    buttonSize={buttonSize}
+                  />
+                  </Button  >
+                  
+                </PopoverBody>
                   <PopoverBody>
                     <ThemeToggleButton />
                   </PopoverBody>

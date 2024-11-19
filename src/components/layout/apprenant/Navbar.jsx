@@ -112,8 +112,8 @@ const ProfileCardApprenant = React.memo(() => {
           >
             <Popover>
               <PopoverTrigger>
-                <Button w="24" rounded="xl" h="24" bg="white">
-                  <IoSettingsOutline size={32} />
+              <Button w="24" rounded="xl" h="24" color="black" bg="white">
+              <IoSettingsOutline size={32} />
                 </Button>
               </PopoverTrigger>
               <PopoverContent>

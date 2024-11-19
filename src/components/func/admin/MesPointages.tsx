@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import MonthPagination from '../../formateur/MonthPagination';
 import WeekSelector from '../../formateur/WeekSelector';
 import DaysOfWeek from '../../formateur/DaysOfWeek';
-import AttendanceSummary from '../../formateur/AttendanceSummary';
+// import AttendanceSummary from '../../formateur/AttendanceSummary';
 import { Box, Center, Spinner, Text } from '@chakra-ui/react';
 
 const PointageBoxPromo = ({
@@ -12,7 +12,7 @@ const PointageBoxPromo = ({
   selectedWeek,
   setSelectedWeek,
   pointagesError,
-  attendanceSummary,
+  // attendanceSummary,
   setSelectedDay,
   daysOfWeek,
   dailyData,
@@ -66,9 +66,9 @@ const PointageBoxPromo = ({
           />
         </Suspense>
 
-        <Suspense fallback={<Spinner />}>
+        {/* <Suspense fallback={<Spinner />}>
           <AttendanceSummary summary={attendanceSummary} />
-        </Suspense>
+        </Suspense> */}
       </>
     )}
   </Box>

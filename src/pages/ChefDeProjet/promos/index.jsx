@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useSWR from 'swr';
 import CardBox from '../../../components/common/Card';
-import PromoCard from '../../../components/common/PromoCard';
 import ListePointage from '../../../components/func/apprenant/ListePointage';
 import ProfileCardFormateur from '../../../components/layout/chefDeProjet/Navbar';
 import PromoHeader from '../../../components/layout/chefDeProjet/PromoHeader';
+import PromoCard from '../../../components/layout/chefDeProjet/PromoCard';
 
 // Fonction de récupération des données
 const fetcher = (url) =>
@@ -159,18 +159,12 @@ const Dashboard = () => {
         >
           {' '}
           <PromoHeader />
-          {promos.length > 0 ? (
-            <PromoCard promos={promos} handlePromoClick={handlePromoClick} />
-          ) : (
-            <Text fontSize="lg" color="red.500">
-              Aucune promotion en cours.
-            </Text>
-          )}{' '}
+          
           {/* Liste des Promos terminées */}
           {promosTerminer.length > 0 ? (
             <PromoCard
               promos={promosTerminer}
-              isCompleted
+              
               handlePromoClick={handlePromoClick}
             />
           ) : (

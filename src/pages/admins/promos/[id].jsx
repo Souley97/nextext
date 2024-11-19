@@ -66,12 +66,12 @@ const MesPointagesP7 = () => {
     isLoading: isDailyLoading,
   } = useSWR(selectedDay ? dailyAttendanceUrl(selectedDay) : null, fetcher);
 
-  const attendanceSummary = dailyData?.pointages
-    ? {
-        absent: dailyData.pointages.filter((p) => p.type === 'absence').length,
-        retard: dailyData.pointages.filter((p) => p.type === 'retard').length,
-      }
-    : { absent: 0, retard: 0 };
+  // const attendanceSummary = dailyData?.pointages
+  //   ? {
+  //       absent: dailyData.pointages.filter((p) => p.type === 'absence').length,
+  //       retard: dailyData.pointages.filter((p) => p.type === 'retard').length,
+  //     }
+  //   : { absent: 0, retard: 0 };
 
   const loading = !pointagesData && !pointagesError;
 
@@ -197,7 +197,7 @@ const MesPointagesP7 = () => {
             setSelectedWeek={setSelectedWeek}
             pointagesData={pointagesData}
             pointagesError={pointagesError}
-            attendanceSummary={attendanceSummary}
+            // attendanceSummary={attendanceSummary}
             setSelectedDay={setSelectedDay}
             daysOfWeek={daysOfWeek}
             dailyData={dailyData}

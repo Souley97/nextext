@@ -6,9 +6,20 @@ import {
   Flex,
   useBreakpointValue,
   Spinner,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  Button,
+  SimpleGrid,
+  VStack,
 } from '@chakra-ui/react';
-import { FaUserAlt, FaQrcode } from 'react-icons/fa';
+import {  FaQrcode, FaHistory, FaUser, FaUserAlt } from 'react-icons/fa';
 import { FaUsersLine } from 'react-icons/fa6';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 import { useUserWithRoles } from '../../../lib/utils/hooks/useUserWithRoles';
 import { getUserWithRoles } from '../../../lib/utils/checkRole';
@@ -16,16 +27,21 @@ import ThemeToggleButton from '../DarkMode';
 import ButtonDeconnexion from '../../common/ButtonDeconnexion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { MdDashboard } from 'react-icons/md';
 
 // eslint-disable-next-line react/display-name
-const ProfileCardChefDeProjet = React.memo(() => {
+const ProfileCardFormateur = React.memo(() => {
   const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
   const iconSize = useBreakpointValue({ base: '20px', md: '30px' });
   const { roles, user, loading } = useUserWithRoles(['ChefDeProjet']);
+  const isMobile = useBreakpointValue({ base: true, md: false }); // Nouveau point de rupture
 
   const fullName = useMemo(
     () => (user ? `${user.prenom} ${user.nom}` : ''),
     [user]
+  );
+  const formattedRoles = roles.map((role) =>
+    user.sexe === 'Femme' ? `formatrice` : role
   );
 
   if (loading) {
@@ -50,25 +66,43 @@ const ProfileCardChefDeProjet = React.memo(() => {
       roundedBottomEnd="3xl"
       roundedBottomStart="3xl"
       width="100%"
-      px={{ base: '4%', lg: '25%' }}
+      px={{ base: '5%', lg: '15%' }}
       shadow="lg"
-      pt={12}
-
       textAlign="center"
+      pt={12}
     >
       <Flex
         justify="space-between"
         align="center"
-        bg="black"
         width="100%"
         rounded="xl"
         py={2}
-        px={{ base: '10%', md: '40px', lg: '80px' }}
-        color="white"
-        shadow="lg"
-        border="2px solid #CE0033"
+        px={{ base: '1%', md: '0px', lg: '10px' }}
       >
-        <NavLink
+        <Flex
+          justify="space-between"
+          align="center"
+          bg="white"
+          width="100%"
+          rounded="xl"
+          py={2}
+          px={{ base: '10%', md: '40px', lg: '80px' }}
+          color="white"
+          shadow="lg"
+          border="2px solid #CE0033"
+        >
+          <SimpleGrid
+            overflow="hidden"
+            columns={[3, 4]}
+            spacingX={6}
+            px={1}
+            py={2}
+            w="full"
+            borderRadius="md"
+            mt={{ base: 8.5, md: 0 ,lg: 2}}
+
+          >
+             <NavLink
           href="/ChefDeProjet/profile"
           icon={FaUserAlt}
           label="Profile"
@@ -76,7 +110,7 @@ const ProfileCardChefDeProjet = React.memo(() => {
           buttonSize={buttonSize}
         />
         <NavLink
-          href="/ChefDeProjet"
+          href="/ChefDeProjet/promos"
           icon={FaQrcode}
           label="QR Code"
           iconSize={iconSize}
@@ -88,20 +122,107 @@ const ProfileCardChefDeProjet = React.memo(() => {
           iconSize={iconSize}
           buttonSize={buttonSize}
         />
+
+{!isMobile && (
+          <Flex
+          mb={1}
+            ml={{ base: '0%', md: '20px', lg: '10%' }}
+            mr={{ base: '0%', md: '20px', lg: '0%' }}
+          >
+            <Popover>
+              <PopoverTrigger>
+                <Button w="24" rounded="xl" h="24" color="black" bg="white">   
+                  <VStack>        
+                  <IoSettingsOutline size={32} />
+                  <Text></Text>
+                  </VStack>      
+
+                </Button>
+
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>profile</PopoverHeader>
+                <Flex p={4}>
+                <PopoverBody>
+                <Button w="15" rounded="md" h="10" bg="gray.100">
+                  <NavLink
+                  href="/formateur/profile"
+                  icon={FaUser}
+                    buttonSize={buttonSize}
+                  />
+                  </Button  >
+                  
+                </PopoverBody>
+                  <PopoverBody>
+                    <ThemeToggleButton />
+                  </PopoverBody>
+                  <PopoverBody>
+                    <ButtonDeconnexion />
+                  </PopoverBody>
+                </Flex>
+              </PopoverContent>
+            </Popover>
+          </Flex>
+        )}
+
+{isMobile && (
+        <Flex justify="center" width="100%">
+          {/* Affichage des boutons sur mobile en haut */}
+
+          <Popover>
+            <PopoverTrigger>
+              <Button>
+                <IoSettingsOutline />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>profile</PopoverHeader>
+              <Flex p={4}>
+                <NavLink
+                  href="/formateur/profile"
+                  icon={FaUser}
+                  label="Profile"
+                  iconSize={iconSize}
+                  buttonSize={buttonSize}
+                />
+
+                <PopoverBody>
+                  <ThemeToggleButton />
+                </PopoverBody>
+                <PopoverBody>
+                  <ButtonDeconnexion />
+                </PopoverBody>
+                <PopoverBody>
+                  <NavLink
+                    href="/formateur/profile"
+                    icon={FaUser}
+                    iconSize={iconSize}
+                    buttonSize={buttonSize}
+                  />
+                </PopoverBody>
+              </Flex>
+            </PopoverContent>
+          </Popover>
+        </Flex>
+      )}
+          </SimpleGrid>
+        </Flex>
+        
       </Flex>
 
+      
       <Center mt={4}>
-        <Box mt={4}>
-          <ThemeToggleButton />
-        </Box>
-        <Box color="white"px={{ base: '8px',md: '8px', lg: '20px' }}>
+        <Box color="white" px={{ base: '8px', md: '15px', lg: '90px' }}>
           <Text fontSize={{ base: '20px', lg: '35px' }} fontWeight="bold">
             {fullName}
           </Text>
-          {roles.length > 0 && <Text> {roles.join(', ')}</Text>}{' '}
-        </Box>
-        <Box mt={4}>
-          <ButtonDeconnexion />
+          {formattedRoles.length > 0 && (
+            <Text>{formattedRoles.join(', ')}</Text>
+          )}
         </Box>
       </Center>
 
@@ -119,7 +240,7 @@ const NavLink = ({ href, icon: Icon, label, iconSize, buttonSize }) => {
   return (
     <Link href={href} passHref>
       <Flex
-        color={isActive ? '#CE0033' : 'white'} // Active link color
+        color={isActive ? '#CE0033' : 'black'} // Active link color
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -127,7 +248,6 @@ const NavLink = ({ href, icon: Icon, label, iconSize, buttonSize }) => {
         // bg={isActive ? 'white' : 'transparent'} // Active background color
         borderRadius="md"
         _hover={{
-          bg: 'gray.700',
           color: '#CE0033',
         }}
       >
@@ -139,9 +259,9 @@ const NavLink = ({ href, icon: Icon, label, iconSize, buttonSize }) => {
 };
 
 export async function getServerSideProps(context) {
-  const result = await getUserWithRoles(context, ['ChefDeProjet']);
+  const result = await getUserWithRoles(context, ['Formateur']);
   console.log('Server-side props:', result);
   return result;
 }
 
-export default ProfileCardChefDeProjet;
+export default ProfileCardFormateur;

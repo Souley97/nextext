@@ -139,8 +139,8 @@ const InscrireApprenantForm = () => {
           backdropFilter="blur(2px)"
           WebkitBackdropFilter="blur(2px)" // For Safari support
         >
-          <Heading mx="35%" fontSize={{ base: '20px', md: '25 px', lg: '10px' }}   as="h6">Apprenant</Heading>
-
+          <Center><Heading fontSize={{ base: '20px', md: '25 px', lg: '22px' }}   as="h6">Apprenant</Heading>
+          </Center>
           <form onSubmit={handleSubmit}>
             <SimpleGrid columns={[1, 2]} mx={{ base: '12px ', md: '12px', lg: '20px'}} spacing={4}>
               <FormInput
@@ -246,7 +246,7 @@ const InscrireApprenantForm = () => {
             <Button mt={4} mx="25%" type="submit"
             alignItems='center'
              _hover={{bg:"#110033"}} color="white" bg="#CE0033" width="50%" py={7}>
-              Inscrire Apprenant
+              Inscrire
             </Button>
           </form>
 

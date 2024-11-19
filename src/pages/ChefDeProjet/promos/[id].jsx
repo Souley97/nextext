@@ -183,10 +183,7 @@ const MesPointagesP7 = () => {
               </>
             )}
           </Suspense>
-          <Suspense>
-          <MarquerAbsences/>
-
-          </Suspense>
+        
 
         </CardBox>
 
@@ -199,7 +196,6 @@ const MesPointagesP7 = () => {
             setSelectedWeek={setSelectedWeek}
             pointagesData={pointagesData}
             pointagesError={pointagesError}
-            attendanceSummary={attendanceSummary}
             setSelectedDay={setSelectedDay}
             daysOfWeek={daysOfWeek}
             dailyData={dailyData}
