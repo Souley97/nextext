@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import QrReader from 'react-web-qr-reader';
 import Swal from 'sweetalert2';
@@ -10,14 +11,14 @@ const QRCodeScanner = () => {
   const [result, setResult] = useState(null);
   const [isScanned, setIsScanned] = useState(false);
 
-  useUserWithRoles(['Vigile']);
+  // useUserWithRoles(['Vigile']);
 
   const delay = 200;
   const previewStyle = {
     height: 440,
     width: 380,
-    borderRadius: '12px',  // Ajout de coins arrondis
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',  // Ombre subtile
+    borderRadius: '12px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   };
 
   const playSuccessSound = () => {
@@ -42,19 +43,19 @@ const QRCodeScanner = () => {
         } else {
           setIsScanned(false);
         }
-      }); 
+      });
     }
   }, [isScanned, result]);
 
   const handleScan = (data) => {
     if (data?.text) {
       const scannedResult = data.text.trim();
-      console.log('Scanned QR Code:', scannedResult); 
+      console.log('Scanned QR Code:', scannedResult);
       setResult(scannedResult);
       setIsScanned(true);
     } else if (data?.binaryData) {
       const qrCodeText = binaryDataToText(data.binaryData).trim();
-      console.log('Scanned QR Code from binary data:', qrCodeText); 
+      console.log('Scanned QR Code from binary data:', qrCodeText);
       setResult(qrCodeText);
       setIsScanned(true);
     }
@@ -80,6 +81,33 @@ const QRCodeScanner = () => {
     }
   };
 
+  const saveScanOffline = (matricule) => {
+    const dbRequest = indexedDB.open('QRScannerDB', 1);
+
+    dbRequest.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains('scans')) {
+        db.createObjectStore('scans', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+
+    dbRequest.onsuccess = (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction('scans', 'readwrite');
+      const store = transaction.objectStore('scans');
+      store.add({ matricule, timestamp: new Date().toISOString() });
+      Swal.fire({
+        icon: 'info',
+        title: 'Données enregistrées hors-ligne',
+        text: `Le matricule ${matricule} a été sauvegardé.`,
+      });
+    };
+
+    dbRequest.onerror = () => {
+      console.error('Erreur IndexedDB');
+    };
+  };
+
   const handleValidation = async () => {
     try {
       if (!result) {
@@ -88,6 +116,11 @@ const QRCodeScanner = () => {
 
       const matricule = result.split('\n')[1].split(':')[1].trim();
       const token = localStorage.getItem('token');
+
+      if (!navigator.onLine) {
+        saveScanOffline(matricule);
+        return;
+      }
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/pointage/arrivee`,
@@ -104,10 +137,7 @@ const QRCodeScanner = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        const errorMessage = data.errors
-          ? Object.values(data.errors).flat().join(', ')
-          : data.message || 'Erreur lors de la mise à jour du statut';
-        throw new Error(errorMessage);
+        throw new Error(data.message || 'Erreur lors de la mise à jour.');
       }
 
       const now = new Date();
@@ -120,8 +150,8 @@ const QRCodeScanner = () => {
         icon: 'success',
         title: 'Statut mis à jour',
         text: `Pointage validé à ${formattedTime}. ${data.message}`, 
-        timer: 1000,            
-        showConfirmButton: false,  
+        timer: 1000,
+        showConfirmButton: false,
       });
     } catch (error) {
       Swal.fire({
@@ -132,6 +162,64 @@ const QRCodeScanner = () => {
     }
   };
 
+  const syncOfflineData = () => {
+    const dbRequest = indexedDB.open('QRScannerDB', 1);
+
+    dbRequest.onsuccess = async (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction('scans', 'readonly');
+      const store = transaction.objectStore('scans');
+      const getAllRequest = store.getAll();
+
+      getAllRequest.onsuccess = async () => {
+        const scans = getAllRequest.result;
+
+        for (const scan of scans) {
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/pointage/arrivee`,
+              {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ matricule: scan.matricule }),
+              }
+            );
+
+            if (response.ok) {
+              const deleteTransaction = db.transaction('scans', 'readwrite');
+              const deleteStore = deleteTransaction.objectStore('scans');
+              deleteStore.delete(scan.id);
+            }
+          } catch (error) {
+            console.error('Erreur lors de la synchronisation:', error);
+          }
+        }
+      };
+    };
+
+    dbRequest.onerror = () => {
+      console.error('Erreur IndexedDB');
+    };
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Code qui utilise 'window' uniquement côté client
+      window.addEventListener('online', syncOfflineData);
+
+      // Nettoyer l'écouteur d'événements lors du démontage du composant
+      return () => {
+        window.removeEventListener('online', syncOfflineData);
+      };
+    }
+
+    
+  }, []); // Le tableau vide [] signifie que cet effet ne s'exécute qu'une seule fois au montage
+
+  
   return (
     <>
       <Center display={'block'}
@@ -156,10 +244,10 @@ const QRCodeScanner = () => {
         <Center mt={{ base: '22px', md: "60px", lg: "140px" }}>
           <Box 
             zIndex={43}
-            boxShadow="0px 4px 15px rgba(0, 0, 0, 0.3)" // Ajoute une ombre
-            borderRadius="10px" // Arrondit les coins
+            boxShadow="0px 4px 15px rgba(0, 0, 0, 0.3)" 
+            borderRadius="10px" 
             transform="scale(1)"
-            transition="transform 0.3s ease-in-out"  >
+            transition="transform 0.3s ease-in-out">
             <QrReader 
               delay={delay}
               style={previewStyle}
@@ -168,8 +256,8 @@ const QRCodeScanner = () => {
             />
           </Box>
         </Center>
-
-        <NavbarVigile />
+        {/* <NavbarVigile /> */}
+ 
       </Center>
     </>
   );

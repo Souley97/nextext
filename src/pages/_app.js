@@ -3,18 +3,20 @@
 import { ChakraProvider, extendTheme, useColorMode } from '@chakra-ui/react';
 import { ColorModeScript } from '@chakra-ui/react';
 import Head from 'next/head';
+import { useEffect } from 'react';
 import { MediaContextProvider } from '../lib/utils/media';
 
-// Define your custom theme settings
+// Configuration du thème Chakra UI
 const config = {
-  initialColorMode: 'light',
-  useSystemColorMode: true,
+  initialColorMode: 'light', // Mode initial : clair
+  useSystemColorMode: true, // Utilisation du mode système si disponible
 };
 
 const theme = extendTheme({ config });
 
+// Composant pour appliquer un fond adapté au mode couleur
 function BackgroundWrapper({ children }) {
-  const { colorMode } = useColorMode();  // Chakra's hook to get the current color mode
+  const { colorMode } = useColorMode(); // Hook pour récupérer le mode couleur actuel
 
   return (
     <div
@@ -31,7 +33,7 @@ function BackgroundWrapper({ children }) {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        minHeight: '100vh',  // Ensures full height coverage
+        minHeight: '100vh', // S'assure que le fond couvre toute la hauteur
       }}
     >
       {children}
@@ -39,15 +41,32 @@ function BackgroundWrapper({ children }) {
   );
 }
 
+// Composant principal de l'application
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    // Enregistrement du service worker pour la PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .catch((error) => {
+          console.error('Échec de l\'enregistrement du service worker :', error);
+        });
+    }
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
+      {/* Script pour gérer le mode couleur initial */}
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+
+      {/* Métadonnées de la page */}
       <Head>
-      <title>{process.env.NEXT_PUBLIC_SITENAME}</title>
+        <title>{process.env.NEXT_PUBLIC_SITENAME || 'Simplon Pointage'}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+
+      {/* Contexte média et application du fond */}
       <MediaContextProvider>
-        {/* Apply background styles based on color mode */}
         <BackgroundWrapper>
           <Component {...pageProps} />
         </BackgroundWrapper>

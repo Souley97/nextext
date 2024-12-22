@@ -13,6 +13,6 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/formateur/promosz/pointage.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/formateur/promosz/pointage.jsx", "src/pages/service-worker.js"],
   "exclude": ["node_modules"]
 }
