@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Box,
   Button,
@@ -20,7 +19,7 @@ import {
   Heading,
   Text,
   Select,
-  Flex,
+
   HStack,
   SimpleGrid,
 } from '@chakra-ui/react';

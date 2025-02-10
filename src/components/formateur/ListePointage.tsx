@@ -1,8 +1,9 @@
 import React from 'react';
 import { VStack, Flex, Box, Text, Image, List, ListItem } from '@chakra-ui/react';
-import dayjs from 'dayjs'; // Make sure to import dayjs
+import dayjs from 'dayjs'; // Assurez-vous d'importer dayjs
+import NextImage from 'next/image'; // Pour une optimisation des images
 
-// Function to get the appropriate image based on the status
+// Fonction pour obtenir l'image appropriée en fonction du statut
 const getStatusImage = (status) => {
   switch (status) {
     case 'present':
@@ -27,15 +28,15 @@ const AttendanceItem = ({ pointage }) => {
       bg="whiteAlpha.80"
       borderBottom="1px solid"
       borderColor="gray.300"
+      aria-label={`Pointage de ${pointage.user.prenom || 'Inconnu'} ${pointage.user.nom || 'Inconnu'} - Statut: ${pointage.type}`}
     >
-      <Image
+      <NextImage
         src={getStatusImage(pointage.type)}
         alt={`Statut: ${pointage.type}`}
+        width={24}
+        height={24}
+        layout="intrinsic"
         loading="lazy"
-        objectFit="contain"
-        w="24px"
-        h="24px"
-        flexShrink={0}
       />
       <Flex direction="column" flex="1" minW="200px">
         <Text fontSize="md" fontWeight="bold" color="gray.800" isTruncated>
@@ -54,7 +55,7 @@ const ListePointage = ({ pointages, promo }) => {
     return <Text>Aucun pointage disponible.</Text>;
   }
 
-  // Group pointages by date
+  // Regroupement des pointages par date
   const pointagesParDate = pointages.reduce((acc, pointage) => {
     const date = dayjs(pointage.date).format('YYYY-MM-DD');
     if (!acc[date]) {
@@ -69,20 +70,16 @@ const ListePointage = ({ pointages, promo }) => {
       {Object.entries(pointagesParDate).map(([date, pointagesDuJour]) => (
         <React.Fragment key={date}>
           <Box display="flex" alignItems="center" justifyContent="center" mb={3}>
-            {/* Display promo name */}
             {promo && <Text fontWeight="bold" textAlign="center" mb={3}>Promotion : {promo.nom}</Text>}
-            <Text fontWeight="bold" textAlign="center" mb={3}>
-              Date : {date}
-            </Text>
+            <Text fontWeight="bold" textAlign="center" mb={3}>Date : {date}</Text>
           </Box>
           <Box p={4} shadow="md" borderWidth="1px">
-  <List>
-    {Array.isArray(pointagesDuJour) && pointagesDuJour.map((pointage) => (
-      <AttendanceItem key={pointage.id} pointage={pointage} />
-    ))}
-  </List>
-</Box>
-
+            <List>
+              {pointagesDuJour.map((pointage) => (
+                <AttendanceItem key={pointage.id} pointage={pointage} />
+              ))}
+            </List>
+          </Box>
         </React.Fragment>
       ))}
     </VStack>

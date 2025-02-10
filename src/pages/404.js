@@ -2,12 +2,12 @@
 import { Box, Heading, Text, Button, keyframes } from '@chakra-ui/react';
 import Link from 'next/link';
 
-// Animation keyframes for floating effect
-const float = keyframes`
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-`;
+// // Animation keyframes for floating effect
+// const float = keyframes`
+//   0% { transform: translateY(0); }
+//   50% { transform: translateY(-10px); }
+//   100% { transform: translateY(0); }
+// `;
 
 
 
@@ -21,7 +21,7 @@ export default function Custom404() {
         bgGradient="linear(to-r, red.400, red.400, red.400)"
         backgroundClip="text"
         fontWeight="extrabold"
-        animation={`${float} 3s ease-in-out infinite`}
+        // animation={`${float} 3s ease-in-out infinite`}
         mb={6}
       >
         404

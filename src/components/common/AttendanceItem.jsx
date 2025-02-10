@@ -1,10 +1,12 @@
+import React from 'react';
 import { ListItem, Flex, Box, Text, Image, useDisclosure } from '@chakra-ui/react';
 import JustificationModal from '../func/apprenant/JustificationModal'; // Importez la modale
+import NextImage from 'next/image'; // Utilisation de Next.js pour l'image
 
 function AttendanceItem({ name, date, time, status, heure_depart, pointageId }) {
   const { isOpen, onOpen, onClose } = useDisclosure(); // Hook pour ouvrir/fermer la modale
 
-  // Determine which image to use based on status
+  // Fonction pour obtenir l'image en fonction du statut
   const getStatusImage = () => {
     switch (status) {
       case 'present':
@@ -20,7 +22,7 @@ function AttendanceItem({ name, date, time, status, heure_depart, pointageId }) 
 
   // Fonction pour afficher la modale uniquement pour les absences
   const handleItemClick = () => {
-    if (status === 'absence') {
+    if (status === 'absent') {
       onOpen(); // Ouvrir la modale si absent
     }
   };
@@ -37,20 +39,18 @@ function AttendanceItem({ name, date, time, status, heure_depart, pointageId }) 
         bg="whiteAlpha.80"
         borderBottom="1px solid"
         borderColor="gray.300"
-        cursor={status === 'absent' ? 'pointer' : 'default'} // Pointer pour absents
-        onClick={handleItemClick} // Afficher la modale pour absents
+        cursor={status === 'absent' ? 'pointer' : 'default'} // Curseur pointer pour absents
+        onClick={handleItemClick} // Ouvrir la modale pour absents
+        aria-label={`Pointage de ${name} - Statut: ${status}`} // Ajout de l'attribut pour l'accessibilité
       >
-
-        <Image
-          src={getStatusImage()}
+        <NextImage
+          src={getStatusImage()} // Utilisation de next/image pour l'optimisation des images
           alt={`Status: ${status}`}
-          loading="lazy"
-          objectFit="contain"
-          w="24px"
-          h="24px"
-          flexShrink={0}
+          width={24}
+          height={24}
+          layout="intrinsic"
         />
-          <Flex direction="column" flex="1" minW="200px">
+        <Flex direction="column" flex="1" minW="200px">
           <Text fontSize="md" fontWeight="bold" color="gray.800" isTruncated>
             {name}
           </Text>
@@ -64,7 +64,7 @@ function AttendanceItem({ name, date, time, status, heure_depart, pointageId }) 
       </ListItem>
 
       {/* Modal for justification */}
-      {status === 'absence' && (
+      {status === 'absent' && (
         <JustificationModal
           isOpen={isOpen}
           onClose={onClose}

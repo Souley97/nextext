@@ -115,13 +115,13 @@ const MesPointagesP7 = () => {
 
   const daysOfWeek = getDaysOfWeek(selectedWeek, date.year());
 
-  if (loading) {
-    return (
-      <Center h="100vh">
-        <Spinner size="xl" />
-      </Center>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Center h="100vh">
+  //       <Spinner size="xl" />
+  //     </Center>
+  //   );
+  // }
 
   return (
     <VStack maxW="100%">

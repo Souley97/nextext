@@ -1,9 +1,15 @@
+import React, { Suspense, useMemo } from 'react';
 import { Box, Center, Spinner, Text } from '@chakra-ui/react';
-import { Suspense } from 'react';
-import AttendanceSummary from './AttendanceSummary';
-import DaysOfWeek from './DaysOfWeek';
 import MonthPagination from './MonthPagination';
 import WeekSelector from './WeekSelector';
+import DaysOfWeek from './DaysOfWeek';
+import AttendanceSummary from './AttendanceSummary';
+
+// Composants optimisés avec React.memo pour éviter les re-rendus inutiles
+const MemoizedMonthPagination = React.memo(MonthPagination);
+const MemoizedWeekSelector = React.memo(WeekSelector);
+const MemoizedDaysOfWeek = React.memo(DaysOfWeek);
+const MemoizedAttendanceSummary = React.memo(AttendanceSummary);
 
 const PointageBoxPromo = ({
   date,
@@ -32,22 +38,20 @@ const PointageBoxPromo = ({
     bg="whiteAlpha.80"
     fontFamily="Nunito Sans"
   >
-    <Suspense fallback={<Spinner />}>
-      <MonthPagination
+    {/* <Suspense fallback={<Spinner />}> */}
+      {/* Regroupement de MonthPagination et WeekSelector */}
+      <MemoizedMonthPagination
         mois={date.format('MM')}
         annee={date.year()}
         handlePreviousMonth={() => handleMonthChange(-1)}
         handleNextMonth={() => handleMonthChange(1)}
       />
-    </Suspense>
-
-    <Suspense fallback={<Spinner />}>
-      <WeekSelector
+      <MemoizedWeekSelector
         semainesDuMois={semainesDuMois}
         selectedWeek={selectedWeek}
         setSelectedWeek={setSelectedWeek}
       />
-    </Suspense>
+    {/* </Suspense> */}
 
     {pointagesError ? (
       <Center mt={4}>
@@ -63,18 +67,18 @@ const PointageBoxPromo = ({
       </Center>
     ) : (
       <>
-        <Suspense fallback={<Spinner />}>
-          <DaysOfWeek
+        {/* <Suspense fallback={<Spinner />}> */}
+          <MemoizedDaysOfWeek
             daysOfWeek={daysOfWeek}
             setSelectedDay={setSelectedDay}
             retard={undefined}
             absent={undefined}
           />
-        </Suspense>
+        {/* </Suspense> */}
 
-        <Suspense fallback={<Spinner />}>
-          <AttendanceSummary summary={attendanceSummary} />
-        </Suspense>
+        {/* <Suspense fallback={<Spinner />}> */}
+          <MemoizedAttendanceSummary summary={attendanceSummary} />
+        {/* </Suspense> */}
       </>
     )}
   </Box>
