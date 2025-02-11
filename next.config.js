@@ -1,9 +1,16 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+  sw: '/sw.js',
+  buildExcludes: [/middleware-manifest\.json$/],
+  mode: 'production'
 });
 
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: false,
   images: {
     remotePatterns: [
       {
@@ -24,7 +31,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/service-worker.js',
+        source: '/sw.js',
         headers: [
           {
             key: 'Service-Worker-Allowed',
@@ -36,4 +43,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = withPWA(nextConfig);
