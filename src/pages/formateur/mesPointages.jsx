@@ -1,44 +1,25 @@
 'use client';
 
-import React, { useState, lazy, Suspense } from 'react';
 import {
-  VStack,
-  Center,
   Box,
   SimpleGrid,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+  VStack
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
+import { useState } from 'react';
 import useSWR from 'swr';
 import PointageBox from '../../components/common/PointageSection';
-import CardBox from '../../components/common/Card';
+import ProfileComponent from '../../components/common/profile';
+import ProfileCardFormateur from '../../components/layout/formateur/Navbar';
 
-// Import du composant `grid` de `ldrs`
-
-import { grid } from 'ldrs'
-
-grid.register()
-
-// Default values shown
-
-// Extensions de Day.js
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);
 
-// Importation dynamique des composants
-const ProfileCardFormateur = lazy(() =>
-  import('../../components/layout/formateur/Navbar')
-);
-const CongeForm = lazy(() => import('../../components/func/formateur/CongeForm'));
-const CongeList = lazy(() => import('../../components/func/formateur/ListeConges'));
+// Dynamic component imports
 
-// Fonction fetcher pour SWR
+// Fetch function
 const fetcher = (url) =>
   fetch(url, {
     method: 'GET',
@@ -54,24 +35,29 @@ const MesPointages = () => {
   const [date, setDate] = useState(dayjs());
   const [selectedWeek, setSelectedWeek] = useState(date.isoWeek());
 
-  // URLs pour les API
-  const pointagesUrl = `${process.env.NEXT_PUBLIC_API_URL}/pointages/moi/apprenant?mois=${date.format('MM')}&annee=${date.year()}&semaine=${selectedWeek}`;
+  const pointagesUrl = `${
+    process.env.NEXT_PUBLIC_API_URL
+  }/pointages/moi/apprenant?mois=${date.format(
+    'MM'
+  )}&annee=${date.year()}&semaine=${selectedWeek}`;
   const attendanceSummaryUrl = `${process.env.NEXT_PUBLIC_API_URL}/pointages/moi`;
 
-  // Appels API avec SWR
-  const { data: pointagesData, error: pointagesError } = useSWR(pointagesUrl, fetcher);
+  const { data: pointagesData, error: pointagesError } = useSWR(
+    pointagesUrl,
+    fetcher
+  );
   const { data: attendanceData } = useSWR(attendanceSummaryUrl, fetcher);
 
-  // Résumé des présences
   const attendanceSummary = attendanceData
     ? {
-        absent: attendanceData.pointages.filter((p) => p.type === 'absence').length,
-        retard: attendanceData.pointages.filter((p) => p.type === 'retard').length,
+        absent: attendanceData.pointages.filter((p) => p.type === 'absence')
+          .length,
+        retard: attendanceData.pointages.filter((p) => p.type === 'retard')
+          .length,
       }
     : { absent: 0, retard: 0 };
 
-  // Indicateur de chargement
-  const isLoading = !pointagesData && !pointagesError;
+  const loading = !pointagesData && !pointagesError;
 
   const handleMonthChange = (direction) => {
     setDate((prev) => prev.add(direction, 'month'));
@@ -80,36 +66,66 @@ const MesPointages = () => {
 
   const semainesDuMois = getWeeksOfMonth(date.month() + 1, date.year());
 
-  // Gestion du chargement global avec l-grid
-  if (isLoading) {
-    return (
-      <Center
-        position="fixed"
-        top="0"
-        left="0"
-        width="100%"
-        height="100%"
-        bg="rgba(255, 255, 255, 0.9)" // Fond semi-transparent
-        zIndex="1000"
-      >
+  // if (loading) {
+  //   return (
+  //     <Center h="100vh">
+  //     </Center>
+  //   );
+  // }
 
-<l-grid
-  size="60"
-  speed="1.5" 
-  color="black" 
-></l-grid>    </Center>
-    );
-  }
   return (
-    <VStack spacing={4}>
-      <Suspense fallback={<l-grid size="60" speed="1.5" color="gray"></l-grid>}>
+    <VStack spacing={4} maxW="100%">
         <ProfileCardFormateur />
-      </Suspense>
-      <SimpleGrid columns={[1, 2]} spacing={8} w="full">
-        {/* Section des pointages */}
-        <CardBox>
+   
+
+      <SimpleGrid
+        mx={{ base: '2px', md: '3px', lg: '2px' }}
+        justifyContent="space-between"
+        columns={[1, 2]}
+        spacing={8}
+      >
+        <Box
+          as="section"
+          px={{ base: '2px', md: '3px', lg: '20px' }}
+          mx={{ base: '2px', md: '3px', lg: '10px' }}
+          py={8}
+          mt={7}
+          w="full"
+          maxW={{ base: '366px', md: '100%', lg: '90%' }}
+          borderBottom="2px solid"
+          borderTop="2px solid"
+          borderColor="#CE0033"
+          borderRadius="md"
+          shadow="lg"
+          bg="whiteAlpha.80"
+          fontFamily="Nunito Sans"
+          flex="2"
+          display={{ base: 'none', md: 'none', lg: 'block' }}
+        >
+         
+            <ProfileComponent />
+        </Box>
+        <Box
+          as="section"
+          px={{ base: '12px', md: '13px', lg: '40px' }}
+          mx={{ base: '2px', md: '3px', lg: '10px' }}
+          maxW={{ base: '366px', md: '100%', lg: '90%' }}
+          minW={{ base: '366px', md: '100%', lg: '90%' }}
+          py={8}
+          mt={7}
+          w="full"
+          borderBottom="2px solid"
+          borderTop="2px solid"
+          borderColor="red.100"
+          borderRadius="md"
+          shadow="lg"
+          bg="whiteAlpha.80"
+          fontFamily="Nunito Sans"
+          flex="2"
+        >
           <PointageBox
             date={date}
+            setDate={setDate}
             handleMonthChange={handleMonthChange}
             semainesDuMois={semainesDuMois}
             selectedWeek={selectedWeek}
@@ -118,44 +134,12 @@ const MesPointages = () => {
             pointagesError={pointagesError}
             attendanceSummary={attendanceSummary}
           />
-        </CardBox>
-        {/* Section des congés */}
-        <CardBox>
-          <Accordion allowToggle>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  Formulaire de congé
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel pb={4}>
-                <Suspense fallback={<l-grid size="30" speed="1" color="blue"></l-grid>}>
-                  <CongeForm />
-                </Suspense>
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  Liste des congés
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel pb={4}>
-                <Suspense fallback={<l-grid size="30" speed="1" color="blue"></l-grid>}>
-                  <CongeList />
-                </Suspense>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        </CardBox>
+        </Box>
       </SimpleGrid>
     </VStack>
   );
 };
 
-// Fonction pour récupérer les semaines d'un mois
 const getWeeksOfMonth = (mois, annee) => {
   const startOfMonth = dayjs(`${annee}-${mois}-01`);
   const endOfMonth = startOfMonth.endOf('month');

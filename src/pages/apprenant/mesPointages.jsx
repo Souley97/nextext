@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Center, SimpleGrid, Spinner, VStack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Spinner, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
@@ -63,13 +63,13 @@ const MesPointages = () => {
 
   const semainesDuMois = getWeeksOfMonth(date.month() + 1, date.year());
 
-  if (loading) {
-    return (
-      <Center h="100vh">
-        <Spinner size="xl" />
-      </Center>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Center h="100vh">
+  //       <Spinner size="xl" />
+  //     </Center>
+  //   );
+  // }
 
   return (
     <VStack spacing={4} maxW="100%">
@@ -91,6 +91,8 @@ const MesPointages = () => {
           mt={7}
           w="full"
           maxW={{ base: '366px', md: '100%', lg: '100%' }}
+          minW={{ base: '366px', md: '100%', lg: '90%' }}
+
           borderBottom="2px solid"
           borderTop="2px solid"
           borderColor="#CE0033"
@@ -108,9 +110,10 @@ const MesPointages = () => {
         <Box
           as="section"
           px={{ base: '12px', md: '13px', lg: '40px' }}
-          mx={{ base: '2px', md: '3px', lg: '100px' }}
+          mx={{ base: '2px', md: '3px', lg: '10px' }}
           maxW={{ base: '366px', md: '100%', lg: '90%' }}
-          py={8}
+          minW={{ base: '366px', md: '100%', lg: '90%' }}
+          py={4}
           mt={7}
           w="full"
           borderBottom="2px solid"
@@ -124,6 +127,7 @@ const MesPointages = () => {
         >
           <PointageBox
             date={date}
+            setDate={setDate}
             handleMonthChange={handleMonthChange}
             semainesDuMois={semainesDuMois}
             selectedWeek={selectedWeek}

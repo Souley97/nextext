@@ -1,4 +1,5 @@
-import { Box, Link, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const PromoHeader = () => {
   return (
