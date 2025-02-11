@@ -42,7 +42,7 @@ const fetcher = (url) =>
     return res.json();
   });
 
-const MesPointagesP7 = () => {
+const PointagesPromo = () => {
   const [date, setDate] = useState(dayjs());
   const [selectedWeek, setSelectedWeek] = useState(date.isoWeek());
   
@@ -251,4 +251,4 @@ const getDaysOfWeek = (week, year) => {
   return Array.from({ length: 5 }, (_, index) => startOfWeek.add(index, 'day'));
 };
 
-export default MesPointagesP7;
+export default PointagesPromo;

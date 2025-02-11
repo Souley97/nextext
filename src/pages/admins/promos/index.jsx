@@ -8,7 +8,7 @@ import PointageHebdomadaire from '../../../components/func/admin/PointageHebdoma
 import ProfileCardAdministrateur from '../../../components/layout/admin/Navbar';
 import PromoHeader from '../../../components/layout/admin/PromoHeader';
 
-// Fonction de récupération des données
+// Function to fetch data
 const fetcher = (url) =>
   fetch(url, {
     headers: {
@@ -20,7 +20,6 @@ const fetcher = (url) =>
   });
 
 const Dashboard = () => {
-  // Récupérer les promos en cours et terminées
   const { data: promosData, error: promosError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/promos/encours`,
     fetcher
@@ -32,19 +31,15 @@ const Dashboard = () => {
 
   const router = useRouter();
 
-  // Rediriger vers la page de la promotion sélectionnée
   const handlePromoClick = (promoId) => {
     router.push(`/admins/promos/${promoId}`);
   };
 
-  // Fetch assistants
   const { data: assistantsData, error: assistantsError } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/formateurs`,
-
     fetcher
   );
   const assistants = assistantsData ? assistantsData : [];
-  console.log(assistants);
 
   const assignAssistant = async (promoId, assistantId) => {
     try {
@@ -66,45 +61,15 @@ const Dashboard = () => {
       const data = await response.json();
       if (data.success) {
         alert('Assistant assigné avec succès.');
-        // Optionally, refetch promos data here if needed
       }
     } catch (error) {
       console.error("Erreur lors de l'assignation de l'assistant:", error);
     }
   };
 
-  // Récupérer les pointages du jour pour une promotion
-  // const fetchPointages = async (promoId) => {
-  //   const response = await fetch(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/promos/${promoId}/pointages-aujourdhui`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     }
-  //   );
-
-  //   if (response.ok) {
-  //     const data = await response.json();
-  //     if (data.success) {
-  //       setPointages(data.pointages);
-  //       setSelectedPromoId(promoId);
-  //     } else {
-  //       console.error(
-  //         data.message || 'Erreur lors de la récupération des pointages.'
-  //       );
-  //     }
-  //   } else {
-  //     console.error('Erreur lors de la récupération des pointages.');
-  //   }
-  // };
-
   if (promosError || promosErrorTerminer) {
     return (
       <Box p={0}>
-        {/* Profil Formateur et Header */}
         <ProfileCardAdministrateur />
 
         <SimpleGrid
@@ -148,9 +113,8 @@ const Dashboard = () => {
             fontFamily="Nunito Sans"
             flex="2"
           >
-            {' '}
             <PromoHeader />
-            <Text color="red.500">Aucune promotion</Text>{' '}
+            <Text color="red.500">Aucune promotion</Text>
           </Box>
         </SimpleGrid>
       </Box>
@@ -162,28 +126,20 @@ const Dashboard = () => {
 
   return (
     <Box p={0}>
-      {/* Profil Formateur et Header */}
       <ProfileCardAdministrateur />
 
       <SimpleGrid
-        ml={{ base: '12px', md: '11px', lg: '12px' }}
-        justifyContent="space-between"
+        ml={{ base: '12px', md: '11px', lg: '1px' }}
+        justifyContent="center"
         columns={[1, 2]}
         spacing={8}
       >
         <CardBox
           as="section"
-
-          maxW={{ base: '366px', md: '100%', lg: '90%' }}
+          maxW={{ base: '366px', md: '100%', lg: '100%' }}
           display={{ base: 'block', md: 'block', lg: 'block' }}
         >
-          {/* <ListePointage /> */}
-          <PointageHebdomadaire
-          // pointages={pointages}
-          // promoId={selectedPromoId}
-          // fetchPointages={fetchPointages}
-          />
-          ;
+          <PointageHebdomadaire />
         </CardBox>
         <CardBox
           as="section"
@@ -192,20 +148,13 @@ const Dashboard = () => {
           py={8}
           mt={7}
           w="full"
+          mr={46}
           maxW={{ base: '366px', md: '100%', lg: '60%' }}
         >
-          {/* <PromoAssign
-            promos={promos}
-            assignAssistant={assignAssistant}
-            assistants={assistants} 
-          />*/}
-          {/* {' '} */}
-          {/* <PromoHeader /> */}
           <Center>
-
-          <Heading as='h3'>
-            Promos
-          </Heading>
+            <Heading as='h3'>
+              Promos
+            </Heading>
           </Center>
           {promos.length > 0 ? (
             <PromoCard
@@ -218,8 +167,7 @@ const Dashboard = () => {
             <Text fontSize="lg" color="red.500">
               Aucune promotion en cours.
             </Text>
-          )}{' '}
-          {/* Liste des Promos terminées */}
+          )}
           {promosTerminer.length > 0 ? (
             <PromoCard
               promos={promosTerminer}
@@ -230,7 +178,7 @@ const Dashboard = () => {
             <Text fontSize="lg" color="red.500">
               Aucune promotion terminée.
             </Text>
-          )}{' '}
+          )}
         </CardBox>
       </SimpleGrid>
     </Box>

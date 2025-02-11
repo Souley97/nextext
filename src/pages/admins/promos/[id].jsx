@@ -3,7 +3,6 @@
 
 import {
   Box,
-  Center,
   SimpleGrid,
   Spinner,
   Text,
@@ -16,9 +15,11 @@ import isoWeeksInYear from 'dayjs/plugin/isoWeeksInYear';
 import { useRouter } from 'next/router';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import useSWR from 'swr';
+// import ListePointage from '../../../components/func/formateur/ListePointage';
+// import PointageBoxPromo   from '../../../components/func/formateur/MesPointages';
+import CardBox from '../../../components/common/Card';
 import ListePointage from '../../../components/func/admin/ListePointage';
 import PointageBoxPromo from '../../../components/func/admin/MesPointages';
-import CardBox from '../../../components/common/Card';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);
@@ -40,7 +41,7 @@ const fetcher = (url) =>
     return res.json();
   });
 
-const MesPointagesP7 = () => {
+const PointagesPromo = () => {
   const [date, setDate] = useState(dayjs());
   const [selectedWeek, setSelectedWeek] = useState(date.isoWeek());
   
@@ -113,13 +114,7 @@ const MesPointagesP7 = () => {
 
   const daysOfWeek = getDaysOfWeek(selectedWeek, date.year());
 
-  if (loading) {
-    return (
-      <Center h="100vh">
-        <Spinner size="xl" />
-      </Center>
-    );
-  }
+
 
   return (
     <VStack maxW="100%">
@@ -127,10 +122,10 @@ const MesPointagesP7 = () => {
         <ProfileCardAdministrateur />
       </Suspense>
 
-      <SimpleGrid spacingX={24} columns={[1, 2]}>
+      <SimpleGrid spacingX={24} mr={{ base: '0', md: '0', lg: '150px' }} columns={[1, 2]}>
         <CardBox
           px={{ base: '12px', md: '13px', lg: '10px' }}
-          mx={{ base: '2px', md: '3px', lg: '60px' }}
+          mx={{ base: '2px', md: '3px', lg: '10px' }}
           maxW={{ base: '366px', md: '100%', lg: '100%' }}
         >
           <Suspense fallback={<Spinner />}>
@@ -249,4 +244,4 @@ const getDaysOfWeek = (week, year) => {
   return Array.from({ length: 5 }, (_, index) => startOfWeek.add(index, 'day'));
 };
 
-export default MesPointagesP7;
+export default PointagesPromo;

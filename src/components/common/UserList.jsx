@@ -44,20 +44,28 @@ const UserList = ({ users, userType, onSelectFormateur }) => {
                   {user.nom} {user.prenom}
                 </Text>
                 <Text fontSize="sm" fontFamily="Nunito Sans">
-                  {user.role} {/* Afficher le rôle de l'utilisateur */}
+                {user.role === 'Formateur' && (
+                <>Formateur</>
+              )}
+              {user.role === 'ChefDeProjet' && (
+                <>Chef de projet</>
+              )}
+              {user.role === 'Vigile' && (
+                <>Vigile</>
+              )}
+                  
                 </Text>
               </Box>
             </ButtonGroup>
 
-            <Text fontSize="sm" fontFamily="Nunito Sans">
-              {/* Afficher le nombre de promotions selon le rôle */}
+            {/* <Text fontSize="sm" fontFamily="Nunito Sans">
               {user.role === 'Formateur' && (
                 <>{user.promos_foramateur_count} Promos</>
               )}
               {user.role === 'ChefDeProjet' && (
                 <>{user.promos_chef_de_projet_count} Promos</>
               )}
-            </Text>
+            </Text> */}
           </Box>
         ))
       ) : (

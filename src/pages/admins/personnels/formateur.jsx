@@ -15,6 +15,7 @@ import FormInput from '../../../components/common/FormInput';
 import FormSelect from '../../../components/common/FormSelect';
 import UserList from '../../../components/common/UserList';
 import ProfileCardAdministrateur from '../../../components/layout/admin/Navbar';
+import FormateurPromotions from '../../../components/common/FormateurPromotions';
 
 const fetcher = (url) =>
   fetch(url, {
@@ -43,8 +44,8 @@ const AjouteFormateurPage = () => {
   const [errors, setErrors] = useState({});
   const [filterType, setFilterType] = useState('Formateur');
   const [role, setRole] = useState('Formateur'); // State for role
+  const [selectedFormateur, setSelectedFormateur] = useState(null); // State for selected formateur
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFormateur, setSelectedFormateur] = useState(null); // Add this line
 
   // Fetch formateurs
   const { data: formateursData, error: formateursError } = useSWR(
@@ -122,14 +123,15 @@ const AjouteFormateurPage = () => {
   };
 
   const formateurs = formateursData ? formateursData.formateurs : [];
-const filteredUsers = Array.isArray(formateurs)
-  ? formateurs.filter((user) =>
-      filterType === 'Formateur'
-        ? user.role === 'Formateur'
-        : filterType === 'ChefDeProjet'
-        ? user.role === 'ChefDeProjet'
-        : user.role === 'Vigile'
-    ) : [];
+
+  // Filter users based on role
+  const filteredUsers = formateurs.filter((user) =>
+    filterType === 'Formateur'
+      ? user.role === 'Formateur'
+      : filterType === 'ChefDeProjet'
+      ? user.role === 'ChefDeProjet'
+      : user.role === 'Vigile'
+  );
 
   const handleSelectFormateur = (formateur) => {
     setSelectedFormateur(formateur); // Update selected formateur
@@ -149,16 +151,15 @@ const filteredUsers = Array.isArray(formateurs)
         columns={[1, 2]}
         spacing={2}
       >
-        <CardBox maxW={{ base: '100%', md: '100%', lg: '90%' }}>
-          <Center>
-          <Heading justifyContent="center" as="h2" size="md" mb={4}>
+      <CardBox alignItems="center"  maxW={{ base: '100%', md: '100%', lg: '90%' }}>
+          {/* <Heading as="h2" size="md" mb={4}>
             {role}
-          </Heading>
-          </Center>
+          </Heading> */}
           <Box mx="25%">
             <FormSelect
               id="role"
               name="role"
+              label="Role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               options={[
@@ -234,20 +235,21 @@ const filteredUsers = Array.isArray(formateurs)
                 error={errors.sexe}
               />
             </SimpleGrid>
-<Center>
+
             <Button
               mt={4}
-              width={{ base: '100%', md: '100%', lg: '50%' }}
+              mx="25%"
+              type="submit"
               alignItems="center"
               isLoading={isLoading}
               _hover={{ bg: '#110033' }}
               color="white"
               bg="#CE0033"
-              py={5}
+              width="50%"
+              py={7}
             >
               Inscrire {role}
             </Button>
-            </Center>
           </form>
 
           {message && (
@@ -261,8 +263,7 @@ const filteredUsers = Array.isArray(formateurs)
             </Text>
           )}
         </CardBox>
-
-        <CardBox>
+        <CardBox maxW={{ base: '100%', md: '100%', lg: '70%' }}>
           <Flex
             flex="auto"
             gap={4}
@@ -288,14 +289,13 @@ const filteredUsers = Array.isArray(formateurs)
               px={{ base: 2, md: 3, lg: 10 }}
               w="100%"
               py={6}
-              fontSize="lg"
               color="white"
               bg={filterType === 'ChefDeProjet' ? '#ce0033' : 'gray.500'}
               _hover={{ bg: '#ce0033' }}
               borderRadius="md"
               onClick={() => setFilterType('ChefDeProjet')}
             >
-              Chef de Projet
+              Chefs de Projet
             </Button>
             <Button
               px={{ base: 2, md: 3, lg: 10 }}
