@@ -5,6 +5,7 @@ import { ColorModeScript } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { MediaContextProvider } from '../lib/utils/media';
+import * as serviceWorker from '../lib/serviceWorkerRegistration';
 
 // Configuration du thème Chakra UI
 const config = {
@@ -44,14 +45,7 @@ function BackgroundWrapper({ children }) {
 // Composant principal de l'application
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
-    // Enregistrement du service worker pour la PWA
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/service-worker.js')
-        .catch((error) => {
-          console.error('Échec de l\'enregistrement du service worker :', error);
-        });
-    }
+    serviceWorker.register();
   }, []);
 
   return (

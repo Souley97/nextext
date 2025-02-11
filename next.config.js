@@ -21,6 +21,19 @@ const nextConfig = {
     ],
     dangerouslyAllowSVG: true, // Allow SVG images
   },
+  async headers() {
+    return [
+      {
+        source: '/service-worker.js',
+        headers: [
+          {
+            key: 'Service-Worker-Allowed',
+            value: '/'
+          }
+        ]
+      }
+    ];
+  }
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
