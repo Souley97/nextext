@@ -19,7 +19,7 @@ import useSWR from 'swr';
 import ListePointage from '../../../components/func/admin/ListePointage';
 import PointageBoxPromo from '../../../components/func/admin/MesPointages';
 import CardBox from '../../../components/common/Card';
-import MarquerAbsences from '../../../components/func/formateur/MarquerAbsences';
+// import MarquerAbsences from '../../../components/func/formateur/MarquerAbsences';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isoWeeksInYear);

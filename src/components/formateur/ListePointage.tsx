@@ -1,6 +1,5 @@
 import React from 'react';
-import { VStack, Flex, Box, Text, Image, List, ListItem } from '@chakra-ui/react';
-import dayjs from 'dayjs'; // Assurez-vous d'importer dayjs
+import { VStack, Flex, Box, Text, List, ListItem } from '@chakra-ui/react';
 import NextImage from 'next/image'; // Pour une optimisation des images
 
 // Fonction pour obtenir l'image appropriée en fonction du statut

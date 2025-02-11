@@ -1,11 +1,9 @@
 'use client';
 
+import { Box, Center, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import QrReader from 'react-web-qr-reader';
 import Swal from 'sweetalert2';
-import NavbarVigile from '../../components/layout/vigile/Navbar';
-import { Box, Center, Heading } from '@chakra-ui/react';
-import { useUserWithRoles } from '../../lib/utils/hooks/useUserWithRoles';
 
 const QRCodeScanner = () => {
   const [result, setResult] = useState(null);
@@ -93,8 +91,9 @@ const QRCodeScanner = () => {
       }
     };
 
-    dbRequest.onsuccess = (event) => {
-      const db = event.target.result;
+    dbRequest.onsuccess = (event: Event) => {
+      const target = event.target as IDBOpenDBRequest;
+      const db = target.result;
       const transaction = db.transaction('scans', 'readwrite');
       const store = transaction.objectStore('scans');
       store.add({ matricule, timestamp: new Date().toISOString() });
@@ -167,8 +166,9 @@ const QRCodeScanner = () => {
   const syncOfflineData = () => {
     const dbRequest = indexedDB.open('QRScannerDB', 1);
 
-    dbRequest.onsuccess = async (event) => {
-      const db = event.target.result;
+    dbRequest.onsuccess = async (event: Event) => {
+      const target = event.target as IDBOpenDBRequest;
+      const db = target.result;
       const transaction = db.transaction('scans', 'readonly');
       const store = transaction.objectStore('scans');
       const getAllRequest = store.getAll();

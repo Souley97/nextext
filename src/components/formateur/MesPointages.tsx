@@ -1,5 +1,5 @@
-import React, { Suspense, useMemo } from 'react';
-import { Box, Center, Spinner, Text } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Center, Text } from '@chakra-ui/react';
 import MonthPagination from './MonthPagination';
 import WeekSelector from './WeekSelector';
 import DaysOfWeek from './DaysOfWeek';

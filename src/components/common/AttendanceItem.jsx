@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, Flex, Box, Text, Image, useDisclosure } from '@chakra-ui/react';
+import { ListItem, Flex, Box, Text, useDisclosure } from '@chakra-ui/react';
 import JustificationModal from '../func/apprenant/JustificationModal'; // Importez la modale
 import NextImage from 'next/image'; // Utilisation de Next.js pour l'image
 

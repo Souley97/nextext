@@ -1,4 +1,4 @@
-import { Box, Text, Spinner } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 const DailyAttendance = ({ selectedDay, dailyData }) => (
   <Box mt={4}>

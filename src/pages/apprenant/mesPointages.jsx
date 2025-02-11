@@ -54,7 +54,6 @@ const MesPointages = () => {
       }
     : { absent: 0, retard: 0 };
 
-  const loading = !pointagesData && !pointagesError;
 
   const handleMonthChange = (direction) => {
     setDate((prev) => prev.add(direction, 'month'));

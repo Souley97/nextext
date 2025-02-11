@@ -17,7 +17,7 @@ import {
   SimpleGrid,
   VStack,
 } from '@chakra-ui/react';
-import {  FaQrcode, FaHistory, FaUser, FaUserAlt } from 'react-icons/fa';
+import {  FaQrcode, FaUser, FaUserAlt } from 'react-icons/fa';
 import { FaUsersLine } from 'react-icons/fa6';
 import { IoSettingsOutline } from 'react-icons/io5';
 
@@ -27,7 +27,6 @@ import ThemeToggleButton from '../DarkMode';
 import ButtonDeconnexion from '../../common/ButtonDeconnexion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { MdDashboard } from 'react-icons/md';
 
 // eslint-disable-next-line react/display-name
 const ProfileCardFormateur = React.memo(() => {
