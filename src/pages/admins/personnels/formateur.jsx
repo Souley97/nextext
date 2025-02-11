@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Flex,
-  Heading,
   SimpleGrid,
   Text,
   useToast,
@@ -11,11 +10,11 @@ import {
 import { useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import CardBox from '../../../components/common/Card';
+import FormateurPromotions from '../../../components/common/FormateurPromotions';
 import FormInput from '../../../components/common/FormInput';
 import FormSelect from '../../../components/common/FormSelect';
 import UserList from '../../../components/common/UserList';
 import ProfileCardAdministrateur from '../../../components/layout/admin/Navbar';
-import FormateurPromotions from '../../../components/common/FormateurPromotions';
 
 const fetcher = (url) =>
   fetch(url, {
@@ -44,8 +43,8 @@ const AjouteFormateurPage = () => {
   const [errors, setErrors] = useState({});
   const [filterType, setFilterType] = useState('Formateur');
   const [role, setRole] = useState('Formateur'); // State for role
-  const [selectedFormateur, setSelectedFormateur] = useState(null); // State for selected formateur
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedFormateur, setSelectedFormateur] = useState(null);
 
   // Fetch formateurs
   const { data: formateursData, error: formateursError } = useSWR(
@@ -134,7 +133,7 @@ const AjouteFormateurPage = () => {
   );
 
   const handleSelectFormateur = (formateur) => {
-    setSelectedFormateur(formateur); // Update selected formateur
+    setSelectedFormateur(formateur);
   };
 
   if (formateursError) {
@@ -318,7 +317,7 @@ const AjouteFormateurPage = () => {
             onSelectFormateur={handleSelectFormateur}
             filterType={filterType}
           />
-          {/* <FormateurPromotions formateur={selectedFormateur} /> */}
+          <FormateurPromotions formateur={selectedFormateur} />
         </CardBox>
       </SimpleGrid>
     </Center>

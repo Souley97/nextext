@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "build": "NODE_NO_WARNINGS=1 NODE_APPLICATION_BUILDING=TRUE NODE_TLS_REJECT_UNAUTHORIZED=0 next build",
-    "start": "NODE_NO_WARNINGS=1 NODE_TLS_REJECT_UNAUTHORIZED=0 next start",
+    "build": "set NODE_NO_WARNINGS=1 && set NODE_APPLICATION_BUILDING=TRUE && set NODE_TLS_REJECT_UNAUTHORIZED=0 && next build",
+    "start": "set NODE_NO_WARNINGS=1 && set NODE_TLS_REJECT_UNAUTHORIZED=0 && next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
     "prepare": "husky install",

@@ -50,37 +50,52 @@ const AttendanceItem = ({ pointage }) => {
   );
 };
 
-const ListePointage = ({ pointages, promo }) => {
+interface Pointage {
+  id: string | number;
+  type: string;
+  date: string;
+  // Ajoutez d'autres propriétés selon votre structure de données
+}
+
+interface ListePointageProps {
+  pointages: Pointage[];
+}
+
+const ListePointage: React.FC<ListePointageProps> = ({ pointages }) => {
   if (!pointages || pointages.length === 0) {
     return <Text>Aucun pointage disponible.</Text>;
   }
 
-  // Regroupement des pointages par date
-  const pointagesParDate = pointages.reduce((acc, pointage) => {
-    const date = dayjs(pointage.date).format('YYYY-MM-DD');
+  // Grouper les pointages par date
+  const pointagesParJour = pointages.reduce((acc, pointage) => {
+    const date = pointage.date.split('T')[0];
     if (!acc[date]) {
       acc[date] = [];
     }
     acc[date].push(pointage);
     return acc;
-  }, {});
+  }, {} as Record<string, Pointage[]>);
 
   return (
-    <VStack spacing={4} align="stretch" w="100%">
-      {Object.entries(pointagesParDate).map(([date, pointagesDuJour]) => (
-        <React.Fragment key={date}>
-          <Box display="flex" alignItems="center" justifyContent="center" mb={3}>
-            {promo && <Text fontWeight="bold" textAlign="center" mb={3}>Promotion : {promo.nom}</Text>}
-            <Text fontWeight="bold" textAlign="center" mb={3}>Date : {date}</Text>
-          </Box>
+    <VStack spacing={4} align="stretch">
+      {Object.entries(pointagesParJour).map(([date, pointagesDuJour]) => (
+        <Box key={date}>
+          <Text fontWeight="bold" mb={2}>
+            {new Date(date).toLocaleDateString('fr-FR', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </Text>
           <Box p={4} shadow="md" borderWidth="1px">
             <List>
-              {pointagesDuJour.map((pointage) => (
+              {pointagesDuJour.map((pointage: Pointage) => (
                 <AttendanceItem key={pointage.id} pointage={pointage} />
               ))}
             </List>
           </Box>
-        </React.Fragment>
+        </Box>
       ))}
     </VStack>
   );

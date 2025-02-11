@@ -45,6 +45,11 @@ const Pointages = () => {
 
   const bgCard = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const hoverBgColor = useColorModeValue('gray.50', 'gray.700');
+  const headingColor = useColorModeValue('gray.700', 'white');
+  const tableBgColor = useColorModeValue('gray.50', 'gray.700');
+  const summaryBgAbsence = useColorModeValue('red.50', 'red.900');
+  const summaryBgRetard = useColorModeValue('orange.50', 'orange.900');
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
@@ -100,7 +105,7 @@ const Pointages = () => {
       }
   
       html2canvas(input, {
-        scale: 2, // Increase the scale for better resolution
+        scale: 2,
         logging: false,
         useCORS: true,
         windowWidth: input.scrollWidth,
@@ -114,16 +119,16 @@ const Pointages = () => {
         const pageHeight = pdf.internal.pageSize.getHeight();
         
         const ratio = canvas.width / canvas.height;
-        let imgWidth = pageWidth - 20; // Leave some margin
+        let imgWidth = pageWidth - 20;
         let imgHeight = imgWidth / ratio;
   
-        if (imgHeight > pageHeight - 30) { // Adjust for top and bottom margins
+        if (imgHeight > pageHeight - 30) {
           imgHeight = pageHeight - 30;
           imgWidth = imgHeight * ratio;
         }
   
         const x = (pageWidth - imgWidth) / 2;
-        const y = 20; // Start a bit lower to leave room for the header
+        const y = 20;
   
         pdf.setFontSize(16);
         pdf.text('Rapport de Pointages', pageWidth / 2, 15, { align: 'center' });
@@ -138,12 +143,12 @@ const Pointages = () => {
   
         pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
   
-        const pages = pdf.internal.getNumberOfPages();
-        for (let i = 1; i <= pages; i++) {
+        const pageCount = pdf.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
           pdf.setPage(i);
           pdf.setFontSize(10);
           pdf.text(
-            `Page ${i} sur ${pages}`,
+            `Page ${i} sur ${pageCount}`,
             pageWidth - 10,
             pageHeight - 10,
             { align: 'right' }
@@ -173,9 +178,9 @@ const Pointages = () => {
 
   const days = getDaysInRange();
 
-  const getUniqueDaysWithPointages = () => {
+  const getUniqueDaysWithPointages = (): string[] => {
     if (!result) return [];
-    const uniqueDays = new Set();
+    const uniqueDays = new Set<string>();
     result.forEach((user) => {
       Object.keys(user.dates).forEach((day) => {
         uniqueDays.add(day);
@@ -189,7 +194,7 @@ const Pointages = () => {
   return (
     <Container maxW="container.xl" py={8}>
       <VStack spacing={8}>
-        <Heading size="lg" color={useColorModeValue('gray.700', 'white')}>
+        <Heading size="lg" color={headingColor}>
           Gestion des Pointages
         </Heading>
 
@@ -290,7 +295,7 @@ const Pointages = () => {
             <CardBody overflowX="auto">
               <Table variant="simple" id="attendance-table">
                 <Thead>
-                  <Tr bg={useColorModeValue('gray.50', 'gray.700')}>
+                  <Tr bg={tableBgColor}>
                     <Th>Nom</Th>
                     <Th>Prénom</Th>
                     {uniqueDays.map((day) => (
@@ -305,7 +310,7 @@ const Pointages = () => {
                     <Tr 
                       key={user.user.id} 
                       onClick={() => handleUserClick(user)}
-                      _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}
+                      _hover={{ bg: hoverBgColor }}
                       cursor="pointer"
                     >
                       <Td>{user.user.nom}</Td>
@@ -360,10 +365,10 @@ const Pointages = () => {
                 Résumé pour {selectedUser.user.nom} {selectedUser.user.prenom}
               </Text>
               <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={4}>
-                <Box p={4} bg={useColorModeValue('red.50', 'red.900')} borderRadius="md">
+                <Box p={4} bg={summaryBgAbsence} borderRadius="md">
                   <Text>Absences: {selectedUser.absences}</Text>
                 </Box>
-                <Box p={4} bg={useColorModeValue('orange.50', 'orange.900')} borderRadius="md">
+                <Box p={4} bg={summaryBgRetard} borderRadius="md">
                   <Text>Retards: {selectedUser.tardies}</Text>
                 </Box>
               </Grid>

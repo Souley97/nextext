@@ -84,8 +84,10 @@ const QRCodeScanner = () => {
   const saveScanOffline = (matricule) => {
     const dbRequest = indexedDB.open('QRScannerDB', 1);
 
-    dbRequest.onupgradeneeded = (event) => {
-      const db = event.target.result;
+    dbRequest.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+      const target = event.target as IDBOpenDBRequest;
+      const db = target.result;
+      
       if (!db.objectStoreNames.contains('scans')) {
         db.createObjectStore('scans', { keyPath: 'id', autoIncrement: true });
       }
