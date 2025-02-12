@@ -1,13 +1,4 @@
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  sw: '/sw.js',
-  buildExcludes: [/middleware-manifest\.json$/],
-  mode: 'production'
-});
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: false,
@@ -26,21 +17,8 @@ const nextConfig = {
         pathname: '/api/qr/**',
       },
     ],
-    dangerouslyAllowSVG: true, // Allow SVG images
-  },
-  async headers() {
-    return [
-      {
-        source: '/sw.js',
-        headers: [
-          {
-            key: 'Service-Worker-Allowed',
-            value: '/'
-          }
-        ]
-      }
-    ];
+    dangerouslyAllowSVG: true
   }
 };
 
-module.exports = withPWA(nextConfig);
+module.exports = nextConfig;

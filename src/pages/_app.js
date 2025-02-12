@@ -3,9 +3,7 @@
 import { ChakraProvider, extendTheme, useColorMode } from '@chakra-ui/react';
 import { ColorModeScript } from '@chakra-ui/react';
 import Head from 'next/head';
-import { useEffect } from 'react';
 import { MediaContextProvider } from '../lib/utils/media';
-import * as serviceWorker from '../lib/serviceWorkerRegistration';
 
 // Configuration du thème Chakra UI
 const config = {
@@ -44,10 +42,6 @@ function BackgroundWrapper({ children }) {
 
 // Composant principal de l'application
 function MyApp({ Component, pageProps }) {
-  useEffect(() => {
-    serviceWorker.register();
-  }, []);
-
   return (
     <ChakraProvider theme={theme}>
       {/* Script pour gérer le mode couleur initial */}

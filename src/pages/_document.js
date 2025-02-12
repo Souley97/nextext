@@ -12,8 +12,6 @@ export default function Document() {
           type="text/css"
           dangerouslySetInnerHTML={{ __html: mediaStyles }}
         />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#ce0033" />
       </Head>
       <body>
         {/* This script ensures the correct color mode is applied */}

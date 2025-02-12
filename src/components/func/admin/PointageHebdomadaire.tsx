@@ -78,7 +78,7 @@ const Pointages = () => {
     setError(null);
 
     if (new Date(startDate) > new Date(endDate)) {
-      setError('La date de fin doit être postérieure à la date de début.');
+      setError('La date de fin doit être postérieure à la date de début .');
       setLoading(false);
       return;
     }
