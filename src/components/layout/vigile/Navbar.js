@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'; // Import de SweetAlert
 
 import { getUserWithRoles } from '../../../lib/utils/checkRole';
 import { useUserWithRoles } from '../../../lib/utils/hooks/useUserWithRoles';
+import ButtonDeconnexion from '../../common/ButtonDeconnexion';
 
 const NavbarVigile = () => {
   const router = useRouter();
@@ -166,8 +167,10 @@ const NavbarVigile = () => {
           }
         >
           <Center flexDirection="column">
-            <FaHistory size={30} />
-            <Text mt={2}>Historique</Text>
+            {/* <FaHistory size={30} />
+            <Text mt={2}>Historique</Text> */}
+                  <ButtonDeconnexion />
+
           </Center>
         </Link>
       </Box>

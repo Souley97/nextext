@@ -4,7 +4,7 @@ import { Box, Center, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import QrReader from 'react-web-qr-reader';
 import Swal from 'sweetalert2';
-
+import NavbarVigile from '../../components/layout/vigile/Navbar';
 const QRCodeScanner = () => {
   const [result, setResult] = useState(null);
   const [isScanned, setIsScanned] = useState(false);
@@ -258,7 +258,7 @@ const QRCodeScanner = () => {
             />
           </Box>
         </Center>
-        {/* <NavbarVigile /> */}
+        <NavbarVigile />
  
       </Center>
     </>
