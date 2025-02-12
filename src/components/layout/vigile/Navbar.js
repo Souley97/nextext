@@ -155,7 +155,7 @@ const NavbarVigile = () => {
         </Box>
 
         {/* Lien vers l'historique */}
-        <Link
+        {/* <Link
           href="/vigile/pointages"
           size="sm"
           variant="ghost"
@@ -165,14 +165,14 @@ const NavbarVigile = () => {
               ? activeColor
               : inactiveColor
           }
-        >
+        > */}
           <Center flexDirection="column">
             {/* <FaHistory size={30} />
             <Text mt={2}>Historique</Text> */}
                   <ButtonDeconnexion />
 
           </Center>
-        </Link>
+        {/* </Link> */}
       </Box>
     </Box>
   );
