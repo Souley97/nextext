@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { api } from '../../lib/utils/api';
-import { PiLockKeyOpenFill } from 'react-icons/pi';
 import {
   Box,
   Button,
   Center,
   FormControl,
   FormLabel,
-  Input,
   Heading,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   useToast,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { PiLockKeyOpenFill } from 'react-icons/pi';
+import { api } from '../../lib/utils/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,6 +25,7 @@ const Login = () => {
   const [attempts, setAttempts] = useState(0);  // Initialiser à 0 par défaut
   const maxAttempts = 5;
   const [retryAfter, setRetryAfter] = useState(null);  // Initialiser à null par défaut
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const toast = useToast();
 
@@ -237,14 +242,28 @@ const Login = () => {
 
             <FormControl id="password" mb={6} isRequired>
               <FormLabel>Mot de passe</FormLabel>
-              <Input
-                type="password"
-                placeholder="Entrez votre mot de passe"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                focusBorderColor="red.500"
-                shadow="lg"
-              />
+              <InputGroup size="md">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Entrez votre mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  focusBorderColor="red.500"
+                  shadow="lg"
+                />
+                <InputRightElement>
+                  <IconButton
+                    aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    h="1.75rem"
+                    size="sm"
+                    onClick={() => setShowPassword(!showPassword)}
+                    icon={showPassword ? <FaEyeSlash /> : <FaEye />}
+                    variant="ghost"
+                    _hover={{ bg: 'transparent' }}
+                    color="gray.500"
+                  />
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
 
             {error && <p style={{ color: 'red' }}>{error}</p>}

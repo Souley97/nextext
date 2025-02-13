@@ -68,7 +68,7 @@ const NavbarVigile = () => {
 
   return (
     <Box
-      position="fixed"
+      position={{ base: 'fixed', lg: 'relative' }}
       bottom="0"
       borderRadius="xl"
       px={{ base: '4%', lg: '5%' }}

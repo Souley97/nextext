@@ -1,31 +1,39 @@
 /* eslint-disable react/display-name */
-import React, { useMemo } from 'react';
-import { FaUserAlt, FaQrcode, FaHistory, FaUser } from 'react-icons/fa';
-import { useUserWithRoles } from '../../../lib/utils/hooks/useUserWithRoles';
-import { getUserWithRoles } from '../../../lib/utils/checkRole';
-import ThemeToggleButton from '../DarkMode';
-import ButtonDeconnexion from '../../common/ButtonDeconnexion';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import {
   Box,
-  Center,
-  Text,
-  Flex,
-  useBreakpointValue,
-  Spinner,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverHeader,
-  PopoverBody,
   Button,
+  Center,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverTrigger,
+  Spinner,
+  Text,
+  useBreakpointValue,
+  useDisclosure,
+  VStack
 } from '@chakra-ui/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useMemo } from 'react';
+import { FaHamburger, FaHistory, FaQrcode, FaUserAlt } from 'react-icons/fa';
 import { IoSettingsOutline } from 'react-icons/io5';
+import { getUserWithRoles } from '../../../lib/utils/checkRole';
+import { useUserWithRoles } from '../../../lib/utils/hooks/useUserWithRoles';
+import ButtonDeconnexion from '../../common/ButtonDeconnexion';
+import ThemeToggleButton from '../DarkMode';
 
 const ProfileCardApprenant = React.memo(() => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const buttonSize = useBreakpointValue({ base: 'sm', md: 'md' });
   const iconSize = useBreakpointValue({ base: '20px', md: '30px' });
   const isMobile = useBreakpointValue({ base: true, md: false }); // Nouveau point de rupture
@@ -34,6 +42,61 @@ const ProfileCardApprenant = React.memo(() => {
   const fullName = useMemo(
     () => (user ? `${user.prenom} ${user.nom}` : ''),
     [user]
+  );
+
+  const MobileNav = () => (
+    <>
+      <Button 
+        onClick={onOpen}
+        display={{ base: 'block', md: 'none' }}
+        position="absolute"
+        top={4}
+        right={4}
+        variant="ghost"
+        color="white"
+      >
+        <FaHamburger boxSize={6} />
+      </Button>
+
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">Menu</DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="stretch">
+              <NavLink
+                href="/apprenant/profile"
+                icon={FaUserAlt}
+                label="Profile"
+                iconSize={iconSize}
+                onClick={onClose}
+              />
+              <NavLink
+                href="/apprenant"
+                icon={FaQrcode}
+                label="QR Code"
+                iconSize={iconSize}
+                onClick={onClose}
+              />
+              <NavLink
+                href="/apprenant/mesPointages"
+                icon={FaHistory}
+                label="Historique"
+                iconSize={iconSize}
+                onClick={onClose}
+              />
+              <Box pt={4}>
+                <ThemeToggleButton />
+              </Box>
+              <Box>
+                <ButtonDeconnexion />
+              </Box>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 
   if (loading) {
@@ -59,6 +122,7 @@ const ProfileCardApprenant = React.memo(() => {
       textAlign="center"
       pt={8}
     >
+      <MobileNav />
       <Flex
         justify="space-between"
         align="center"
@@ -67,8 +131,9 @@ const ProfileCardApprenant = React.memo(() => {
         py={2}
         px={{ base: '1%', md: '0px', lg: '10px' }}
       >
-        {/* Menu de navigation, en colonne si mobile */}
+        {/* Navigation desktop */}
         <Flex
+          display={{ base: 'none', md: 'flex' }}
           justify="space-between"
           align="center"
           bg="white"
@@ -179,18 +244,23 @@ const ProfileCardApprenant = React.memo(() => {
   );
 });
 
-const NavLink = ({ href, icon: Icon, label, iconSize, buttonSize }) => {
+const NavLink = ({ href, icon: Icon, label, iconSize, onClick }) => {
   const router = useRouter();
   const isActive = router.pathname === href;
+
+  const handleClick = (e) => {
+    if (onClick) onClick();
+  };
 
   return (
     <Link href={href} passHref>
       <Flex
         as="a"
+        onClick={handleClick}
         display="flex"
         flexDirection="column"
         alignItems="center"
-        fontSize={buttonSize}
+        fontSize={iconSize}
         color={isActive ? '#CE0033' : 'black'}
         p={isActive ? 2 : 0}
         borderRadius={isActive ? 'md' : 'none'}
@@ -208,5 +278,5 @@ export async function getServerSideProps(context) {
   const result = await getUserWithRoles(context, ['Apprenant']);
   return result;
 }
-  
+
 export default ProfileCardApprenant;

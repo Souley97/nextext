@@ -1,4 +1,4 @@
-import { Button, HStack, Text, useColorMode } from '@chakra-ui/react';
+import { Box, Button, HStack, Text, useColorMode } from '@chakra-ui/react';
 import React, { lazy, Suspense, useMemo } from 'react';
 
 // Optimisation avec React.lazy pour le chargement différé des icônes
@@ -28,6 +28,8 @@ const WeekSelector = ({ semainesDuMois, selectedWeek, setSelectedWeek }) => {
         display="block"
         height="full"
         py={3}
+        justifyContent="center"
+        alignItems="center"
         w="full"
         px={{ base: '0px', md: '2px', lg: '22px' }}
         maxW={{ base: '140px', md: '322px', lg: '180px' }}
@@ -55,13 +57,18 @@ const WeekSelector = ({ semainesDuMois, selectedWeek, setSelectedWeek }) => {
         _disabledText={{ color: 'gray.300' }}
         _icon
         color={selectedWeek === week.number ? buttonStyles.selectedIconColor : buttonStyles.iconColor}
-      >
+      >  
+      <Box pb={1}     px={6}
+        justifyContent="center"
+        alignItems="center" >
         <Suspense fallback={null}>
-          <FaCalendarIcon />
-        </Suspense>
+          <FaCalendarIcon size={18}   />
+        </Suspense   ></Box>
         <Text fontSize={{ base: '12px', md: '12px', lg: '18px' }} ml={{ base: '0', md: '0', lg: '-10px' }}>
           Semaine {week.number}
         </Text>
+   
+
       </Button>
     )), [semainesDuMois, selectedWeek, buttonStyles]);
 
