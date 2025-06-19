@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { FaQrcode } from 'react-icons/fa';
 import QrReader from 'react-web-qr-reader';
 import Swal from 'sweetalert2';
-import NavbarVigile from '../../components/layout/vigile/Navbar';
+// import NavbarVigile from '../../components/layout/vigile/Navbar';
 
 const QRCodeScanner = () => {
   const [result, setResult] = useState(null);
@@ -309,9 +309,9 @@ const QRCodeScanner = () => {
         )}
       </VStack>
 
-      <Box position={{ base: 'fixed', lg: 'relative' }} bottom={1} left="-25%"  zIndex={10}>
+{/*       <Box position={{ base: 'fixed', lg: 'relative' }} bottom={1} left="-25%"  zIndex={10}>
         <NavbarVigile />
-      </Box>
+      </Box> */}
     </Container>
   );
 };
