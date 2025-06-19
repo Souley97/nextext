@@ -309,9 +309,8 @@ const QRCodeScanner = () => {
         )}
       </VStack>
 
-{/*       <Box position={{ base: 'fixed', lg: 'relative' }} bottom={1} left="-25%"  zIndex={10}>
-        <NavbarVigile />
-      </Box> */}
+      <Box position={{ base: 'fixed', lg: 'relative' }} bottom={1} left="-25%"  zIndex={10}>
+      </Box> 
     </Container>
   );
 };
